@@ -1,0 +1,23 @@
+name : Nodejs Package
+
+on:
+ push:
+    branches: [ "main" ]
+ pull_request:
+    branches: [ "main" ]
+
+jobs:
+  publish-gpr:
+   runs-on: macos-latest
+   steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v1 
+        with: 
+          node-version: 16
+          registry-url: https://npm.pkg.github.com/
+          persist-credentials: false
+          scope: '@adhishtec'
+      - run : npm install
+      - run : npm publish
+        env :
+           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
